@@ -1,0 +1,10 @@
+{
+  "name": "warlords-chronicles",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Пошаговая фэнтези-стратегия в духе Warlords II. Веб-версия с ИИ трёх уровней сложности.",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node tests/run.js"
+  }
+}

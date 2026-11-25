@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Art preview</title>
+<style>
+  body { background:#14100b; color:#e9dfc7; font-family:Georgia, serif; margin:0; padding:16px; }
+  canvas { image-rendering: pixelated; border:1px solid #4a3b26; background:#1d2a1a; }
+  h3 { color:#c8a24a; font-weight:400; margin:18px 0 8px; letter-spacing:.1em; }
+  .row { display:flex; flex-wrap:wrap; gap:10px; }
+  .cell { text-align:center; font-size:11px; color:#a89878; }
+  .cell canvas { display:block; }
+</style>
+</head>
+<body>
+<h3>Terrain / roads / cities / sites / units</h3>
+<canvas id="c" width="1000" height="820"></canvas>
+<script src="../js/util.js"></script>
+<script src="../js/art.js"></script>
+<script>
+const cv = document.getElementById('c');
+const ctx = cv.getContext('2d');
+ctx.imageSmoothingEnabled = false;
+ctx.fillStyle = '#101a10';
+ctx.fillRect(0,0,1000,820);
+
+const Art = WL.Art;
+const colors = { aq:'#3f7fd4', mo:'#9a5cf0', st:'#d08a3a', kh:'#7aa83a' };
+
+function tile(x,y,type,variant,label){
+  ctx.save(); ctx.translate(x,y); ctx.scale(3,3); Art.drawTerrain(ctx,type,variant||0,0); ctx.restore();
+  if (label) { ctx.fillStyle='#e9dfc7'; ctx.font='11px Georgia'; ctx.fillText(label,x+2,y+110); }
+}
+function road(x,y,mask,label){
+  ctx.save(); ctx.translate(x,y); ctx.scale(3,3); Art.drawTerrain(ctx,0,1,0); Art.drawRoad(ctx,mask); ctx.restore();
+  if (label) { ctx.fillStyle='#e9dfc7'; ctx.font='11px Georgia'; ctx.fillText(label,x+2,y+110); }
+}
+function city(x,y,tier,color,label){
+  ctx.save(); ctx.translate(x,y); ctx.scale(3,3); Art.drawCity(ctx,tier,color,600,{}); ctx.restore();
+  if (label) { ctx.fillStyle='#e9dfc7'; ctx.font='11px Georgia'; ctx.fillText(label,x+2,y+110); }
+}
+function site(x,y,kind,color,cleared,label){
+  ctx.save(); ctx.translate(x,y); ctx.scale(3,3); Art.drawSite(ctx,kind,color,600,cleared); ctx.restore();
+  if (label) { ctx.fillStyle='#e9dfc7'; ctx.font='11px Georgia'; ctx.fillText(label,x+2,y+110); }
+}
+function unit(x,y,type,color,label){
+  ctx.save(); ctx.translate(x,y); ctx.scale(3,3); Art.drawUnit(ctx,type,color,600,{}); ctx.restore();
+  if (label) { ctx.fillStyle='#e9dfc7'; ctx.font='11px Georgia'; ctx.fillText(label,x+2,y+110); }
+}
+
+let x = 12, y = 12;
+const tw = 100, th = 118;
+['grass','forest','hills','mountain','water','sand'].forEach(function(t,i){
+  tile(x + (i%3)*tw, y + Math.floor(i/3)*th, i, i, ['Луга','Лес','Холмы','Горы','Вода','Пустошь'][i]);
+});
+road(x+3*tw, y, 1|2|4|8, 'Дорога');
+road(x+4*tw, y, 1|2|8|16, 'Дорога');
+y += 2*th + 8;
+tile(x, y, 0, 0, '');
+city(x+10, y, 1, colors.aq, 'Посёлок');
+city(x+tw+10, y, 2, colors.mo, 'Город');
+city(x+2*tw+10, y, 3, colors.st, 'Крепость');
+city(x+3*tw+10, y, 2, '#8a7a5a', 'Нейтрал');
+site(x+4*tw+10, y, 'ruin', null, false, 'Руины');
+site(x+5*tw+10, y, 'temple', null, false, 'Храм');
+site(x+6*tw+10, y, 'mine', colors.kh, false, 'Рудник');
+y += th + 8;
+const units = ['militia','spearmen','archers','cavalry','catapult','healer','hero','troll','dragon'];
+units.forEach(function(t,i){
+  const ux = x + (i%5)*tw, uy = y + Math.floor(i/5)*th;
+  unit(ux+10, uy, t, i===7 ? '#7aa83a' : colors.aq, t);
+});
+y += 2*th + 8;
+unit(x+10, y, 'militia', colors.mo, 'Морвейн');
+unit(x+tw+10, y, 'spearmen', colors.st, 'Гномы');
+unit(x+2*tw+10, y, 'cavalry', colors.kh, 'Орки');
+unit(x+3*tw+10, y, 'archers', colors.mo, 'Тёмные');
+</script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Warlords: Хроники Короны</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app">
+
+  <section id="screen-title" class="screen">
+    <div class="title-vignette"></div>
+    <div class="title-inner">
+      <div class="crown-mark">&#9819;</div>
+      <h1 class="game-logo">WARLORDS</h1>
+      <h2 class="game-sub">Хроники Короны</h2>
+      <p class="tagline">Пошаговая война за землю, золото и корону</p>
+      <div class="menu-buttons">
+        <button id="btn-new" class="btn btn-gold btn-big">Новая игра</button>
+        <button id="btn-continue" class="btn btn-big">Продолжить</button>
+        <button id="btn-about" class="btn btn-ghost">Об игре</button>
+      </div>
+      <div class="title-foot">Классическая стратегия в духе Warlords II · v1.0</div>
+    </div>
+  </section>
+
+  <section id="screen-setup" class="screen hidden">
+    <header class="setup-head">
+      <button id="btn-setup-back" class="btn btn-ghost btn-sm">&larr; Назад</button>
+      <div class="setup-title">
+        <h2>Новая кампания</h2>
+        <p>Выберите землю, сложность и знамя</p>
+      </div>
+      <div class="setup-spacer"></div>
+    </header>
+    <div class="setup-body">
+      <div class="setup-section">
+        <h3 class="section-title"><span>1</span> Земля</h3>
+        <div id="scenario-list" class="scenario-list"></div>
+      </div>
+      <div class="setup-section">
+        <h3 class="section-title"><span>2</span> Сложность</h3>
+        <div id="difficulty-list" class="difficulty-list"></div>
+      </div>
+      <div class="setup-section">
+        <h3 class="section-title"><span>3</span> Знамя</h3>
+        <div id="faction-list" class="faction-list"></div>
+      </div>
+    </div>
+    <footer class="setup-foot">
+      <div id="setup-summary" class="setup-summary"></div>
+      <button id="btn-start" class="btn btn-gold btn-big">Начать войну</button>
+    </footer>
+  </section>
+
+  <section id="screen-game" class="screen hidden">
+    <header id="topbar">
+      <div class="crest-wrap"><canvas id="crest-canvas" width="40" height="40"></canvas></div>
+      <div class="tb-faction">
+        <div id="tb-faction-name" class="tb-name">Аквилония</div>
+        <div id="tb-faction-title" class="tb-title">Люди Короны</div>
+      </div>
+      <div id="tb-turn" class="tb-turn">Ход 1</div>
+      <div class="tb-res">
+        <div class="res-block" title="Золото и доход за ход">
+          <span class="res-icon gold-coin"></span>
+          <span id="tb-gold" class="res-val">0</span>
+          <span id="tb-income" class="res-sub">+0</span>
+        </div>
+        <div class="res-block" title="Города и отряды">
+          <span class="res-icon city-icon"></span>
+          <span id="tb-cities" class="res-val">0</span>
+          <span class="res-divider">/</span>
+          <span id="tb-armies" class="res-val">0</span>
+        </div>
+      </div>
+      <div class="tb-actions">
+        <button id="btn-sound" class="icon-btn" title="Звук">&#9835;</button>
+        <button id="btn-sidebar" class="btn btn-sm" title="Скрыть или показать боковую панель">Скрыть</button>
+        <button id="btn-menu" class="btn btn-sm">Меню</button>
+      </div>
+    </header>
+
+    <main id="game-main">
+      <div id="map-wrap">
+        <canvas id="map-canvas"></canvas>
+        <div id="turn-banner" class="turn-banner hidden"></div>
+        <div id="map-toast" class="map-toast hidden"></div>
+      </div>
+      <aside id="sidebar">
+        <div class="side-scroll">
+          <section class="panel" id="panel-context">
+            <div class="panel-head" id="context-head">Обзор</div>
+            <div id="context-body" class="panel-body"></div>
+          </section>
+          <section class="panel" id="panel-objectives">
+            <div class="panel-head">Держава</div>
+            <div id="objectives-body" class="panel-body"></div>
+          </section>
+          <section class="panel" id="panel-minimap">
+            <div class="panel-head">Карта</div>
+            <div class="panel-body minimap-wrap">
+              <canvas id="minimap-canvas" width="240" height="150"></canvas>
+            </div>
+          </section>
+        </div>
+        <div class="side-bottom">
+          <button id="btn-end-turn" class="btn btn-gold btn-end">Завершить ход</button>
+          <label class="fast-ai"><input type="checkbox" id="chk-fast-ai"> Быстрые ходы ИИ</label>
+        </div>
+      </aside>
+    </main>
+
+    <footer id="logbar">
+      <div class="log-title">Хроника</div>
+      <div id="log-list" class="log-list"></div>
+    </footer>
+  </section>
+
+</div>
+
+<div id="modal-root"></div>
+<div id="tooltip" class="tooltip hidden"></div>
+
+<script src="js/util.js"></script>
+<script src="js/data.js"></script>
+<script src="js/scenarios.js"></script>
+<script src="js/mapgen.js"></script>
+<script src="js/state.js"></script>
+<script src="js/combat.js"></script>
+<script src="js/actions.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/art.js"></script>
+<script src="js/render.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/battle-ui.js"></script>
+<script src="js/modals.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
